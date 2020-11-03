@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import HeaderComponent from "./components/headerComp";
+import SliderComponent from "./components/sliderComp";
+import SidebarComponent from "./components/sidebarComp";
+import TestComponent from "./components/testComp";
+import FooterComp from "./components/footerComp";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeaderComponent />
+      <SliderComponent />
+      <div className="center">
+        <section id="content">
+          {/*Sendind prop */}
+          <TestComponent title="Test Title Prop" />
+        </section>
+        <SidebarComponent />
+        <div className="clearfix"></div>
+      </div>
+      <FooterComp />
     </div>
   );
 }
