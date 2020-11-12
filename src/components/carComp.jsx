@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class CarComponent extends Component {
   /* Creating Fn in order to pass data from child to paren through prop fn argument*/
@@ -15,7 +16,7 @@ class CarComponent extends Component {
         </div>
         <h2>{car.model} </h2>
         <span className="date">{car.year} </span>
-        <a href="#">See more</a>
+        <Link to="">See more</Link>
         {/* Exec fn favCar on click*/}
         <button onClick={this.favCar}>Mark as Fav</button>
         <div className="clearfix"></div>

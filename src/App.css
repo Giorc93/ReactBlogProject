@@ -87,6 +87,10 @@ body {
   color: #61dafb;
 }
 
+.active {
+  border-bottom: 2px solid #61dafb;
+}
+
 #slider {
   width: 100%;
   /*Gradient*/
@@ -186,6 +190,25 @@ body {
   border-radius: 4px;
 }
 
+.btn-edit {
+  color: white !important;
+  text-decoration: none !important;
+  text-align: center !important;
+}
+.btn-delete {
+  color: white !important;
+  text-decoration: none !important;
+  text-align: center !important;
+}
+
+.btn-delete:hover {
+  background: #ccc;
+}
+
+.btn-edit:hover {
+  background: #1e728a;
+}
+
 .btn-success {
   background: #61dafb;
 }
@@ -209,6 +232,7 @@ body {
 }
 
 input[type="text"],
+input[type="file"],
 textarea {
   width: 100%;
   min-height: 24px;

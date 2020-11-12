@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+/* Importing NavLink ('NavLink' and 'to' instead of 'a' and 'href' ) allowing navbar links funct.*/
+import { NavLink } from "react-router-dom";
 import logo from "../assets/images/react-logo.svg";
 
 class HeaderComponent extends Component {
@@ -17,19 +19,30 @@ class HeaderComponent extends Component {
             <nav id="menu">
               <ul>
                 <li>
-                  <a href="index.html">Home</a>
+                  {/*Adding class to active component using activeClassName*/}
+                  <NavLink to="/home" activeClassName="active">
+                    Home
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="blog.html">Blog</a>
+                  <NavLink to="/blog" activeClassName="active">
+                    Blog
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="form.html">Form</a>
+                  <NavLink to="/form" activeClassName="active">
+                    Form
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">Page 1</a>
+                  <NavLink to="/page1" activeClassName="active">
+                    Page 1
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">Page 2</a>
+                  <NavLink to="/page2" activeClassName="active">
+                    Page 2
+                  </NavLink>
                 </li>
               </ul>
             </nav>
