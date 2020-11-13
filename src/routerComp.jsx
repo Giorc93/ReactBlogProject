@@ -14,6 +14,7 @@ import SecTestComponent from "./components/secTestComp";
 import ArticleDetailComponent from "./components/articleDetComp";
 import SearchResultComponent from "./components/searchResComp";
 import NewArticleComponent from "./components/newArticleComp";
+import EditArticleComponent from "./components/editArticleComp";
 
 class RouterComponent extends Component {
   render() {
@@ -34,6 +35,11 @@ class RouterComponent extends Component {
               exact
               path="/blog/article/:id"
               component={ArticleDetailComponent}
+            />
+            <Route
+              exact
+              path="/blog/editArt/:id"
+              component={EditArticleComponent}
             />
             <Route
               exact

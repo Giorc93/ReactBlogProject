@@ -3,7 +3,8 @@ import axios from "axios";
 import Global from "../Global";
 import SidebarComponent from "./sidebarComp";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Link, Redirect } from "react-router-dom";
 
 class ArticleDetailComponent extends Component {
   state = {
@@ -29,10 +30,36 @@ class ArticleDetailComponent extends Component {
       });
   };
 
+  deleteArt = (id) => {
+    axios
+      .delete(Global.url + "article/" + id)
+      .then((res) => {
+        this.setState({
+          status: "deleted",
+        });
+        Swal.fire({
+          title: "Article Deleted!",
+          text: "Article has been successfuly deleted",
+          icon: "success",
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Error",
+          text: "Article could not be deleted",
+          icon: "Error",
+        });
+      });
+  };
+
   componentWillMount() {
     this.getArticle();
   }
   render() {
+    if (this.state.status === "deleted") {
+      return <Redirect to="/blog" />;
+    }
     return (
       <Fragment>
         <div className="center">
@@ -61,12 +88,19 @@ class ArticleDetailComponent extends Component {
                     <Moment fromNow>{this.state.article.date}</Moment>
                   </span>
                   <p>{this.state.article.content}</p>
-                  <Link to="/blog" className="btn btn-edit">
-                    Edit Article
-                  </Link>
-                  <Link to="/blog" className="btn btn-delete">
+                  <button className="btn btn-edit">
+                    <Link to={"/blog/editArt/" + this.state.article._id}>
+                      Edit Article
+                    </Link>
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.deleteArt(this.state.article._id);
+                    }}
+                    className="btn btn-delete"
+                  >
                     Delete Article
-                  </Link>
+                  </button>
                   <div className="clearfix"></div>
                 </article>
               </div>

@@ -194,11 +194,23 @@ body {
   color: white !important;
   text-decoration: none !important;
   text-align: center !important;
+  margin-bottom: 10px;
+  min-height: 45px;
 }
+
+.btn-edit a {
+  color: white !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  margin-top: 0px !important;
+}
+
 .btn-delete {
   color: white !important;
   text-decoration: none !important;
   text-align: center !important;
+  min-width: 180px;
+  min-height: 45px;
 }
 
 .btn-delete:hover {

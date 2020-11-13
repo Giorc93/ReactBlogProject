@@ -1,16 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import Global from "../Global";
-import SidebarComponent from "./sidebarComp";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
+import Global from "../Global";
+import SidebarComponent from "../components/sidebarComp";
 
-// Form Validations & Alerts
-
-class NewArticleComponent extends Component {
+class EditArticleComponent extends Component {
   titleRef = React.createRef();
   contentRef = React.createRef();
+  articleId = null;
 
   state = {
     article: {},
@@ -25,7 +24,24 @@ class NewArticleComponent extends Component {
         required: "This field is required",
       },
     });
+    this.articleId = this.props.match.params.id;
+    this.getArticle(this.articleId);
   }
+
+  getArticle = (id) => {
+    axios
+      .get(Global.url + "article/" + id)
+      .then((res) => {
+        this.setState({
+          article: res.data.article,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          article: { err: err },
+        });
+      });
+  };
 
   fileChange = (e) => {
     this.setState({
@@ -43,7 +59,7 @@ class NewArticleComponent extends Component {
     this.forceUpdate();
   };
 
-  saveArticle = (e) => {
+  editArticle = (e) => {
     e.preventDefault();
     // Saving form data to state (article)
     this.changeState();
@@ -51,16 +67,16 @@ class NewArticleComponent extends Component {
     if (this.validator.allValid()) {
       // Sending POST HTTP req
       axios
-        .post(Global.url + "save", this.state.article)
+        .put(Global.url + "article/" + this.articleId, this.state.article)
         .then((res) => {
-          if (res.data.articleStored) {
+          if (res.data.articleUpdated) {
             this.setState({
-              article: res.data.articleStored,
+              article: res.data.articleUpdated,
               status: "waiting",
             });
             Swal.fire({
               title: "Success",
-              text: "Article has been successfuly created",
+              text: "Article has been successfuly edited",
               icon: "success",
               timer: 1000,
             });
@@ -125,47 +141,55 @@ class NewArticleComponent extends Component {
         )}
         <div className="center">
           <section id="content">
-            <h2 className="sub-header">Create Article</h2>
-            <form className="full-form" onSubmit={this.saveArticle}>
-              <div className="form-group">
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  ref={this.titleRef}
-                  onChange={this.changeState}
-                />
-                {this.validator.message(
-                  "title",
-                  this.state.article.title,
-                  "required|alpha_num_space"
-                )}
-              </div>
-              <div className="form-group">
-                <label htmlFor="content">Content</label>
-                <textarea
-                  name="content"
-                  ref={this.contentRef}
-                  onChange={this.changeState}
-                ></textarea>
-                {this.validator.message(
-                  "content",
-                  this.state.article.content,
-                  "required"
-                )}
-              </div>
-              <div className="form-group">
-                <label htmlFor="file0">Image</label>
-                <input type="file" name="file0" onChange={this.fileChange} />
-              </div>
-              <div className="form-group">
-                <input
-                  type="submit"
-                  value="Create"
-                  className="btn btn-succes"
-                />
-              </div>
-            </form>
+            <h2 className="sub-header">Edit Article</h2>
+            {this.state.article.title && (
+              <form className="full-form" onSubmit={this.editArticle}>
+                <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    ref={this.titleRef}
+                    defaultValue={this.state.article.title}
+                    onChange={this.changeState}
+                  />
+                  {this.validator.message(
+                    "title",
+                    this.state.article.title,
+                    "required|alpha_num_space"
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="content">Content</label>
+                  <textarea
+                    name="content"
+                    ref={this.contentRef}
+                    defaultValue={this.state.article.content}
+                    onChange={this.changeState}
+                  ></textarea>
+                  {this.validator.message(
+                    "content",
+                    this.state.article.content,
+                    "required"
+                  )}
+                </div>
+                <label className="form-group">
+                  <label htmlFor="file0">Image</label>
+                  <input type="file" name="file0" onChange={this.fileChange} />
+                </label>
+                <div className="clearfix"></div>
+                <div className="form-group">
+                  <input
+                    type="submit"
+                    value="Create"
+                    className="btn btn-succes"
+                  />
+                </div>
+              </form>
+            )}
+            {!this.state.article.title && (
+              <h2 className="sub-header">Loading Article</h2>
+            )}
           </section>
           <SidebarComponent blog="true" />
           <div className="clearfix"></div>
@@ -174,4 +198,5 @@ class NewArticleComponent extends Component {
     );
   }
 }
-export default NewArticleComponent;
+
+export default EditArticleComponent;
